@@ -1,0 +1,119 @@
+﻿@model List<User>
+
+<h2>Donor List</h2>
+
+<!-- 🔍 FILTER SECTION -->
+<div>
+
+    <!-- Blood Group -->
+    <select id="bloodGroup">
+        <option value="">All</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+    </select>
+
+    <!-- Location -->
+    <input type="text" id="locationInput" placeholder="Search by location" />
+
+    <!-- Reset -->
+    <button onclick="resetFilters()">Reset</button>
+
+</div>
+
+<br />
+
+<!-- 🔍 TABLE -->
+<table border="1" id="donorTable" style="display:none;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Blood Group</th>
+            <th>Location</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<p id="noDataMsg" style="color:red; display:none;">No donors found.</p>
+
+<!-- 🔥 SCRIPT -->
+<script>
+
+let timer;
+
+// 🔹 Fetch and render data
+function loadData() {
+
+    const bloodGroup = document.getElementById("bloodGroup").value;
+    const location = document.getElementById("locationInput").value;
+
+    const table = document.getElementById("donorTable");
+    const tableBody = table.querySelector("tbody");
+    const noDataMsg = document.getElementById("noDataMsg");
+
+    fetch(`/User/Search?searchBloodGroup=${bloodGroup}&searchLocation=${location}`)
+        .then(res => res.json())
+        .then(data => {
+
+            tableBody.innerHTML = "";
+
+            if (data.length === 0) {
+                noDataMsg.style.display = "block";
+                table.style.display = "none";
+                return;
+            }
+
+            noDataMsg.style.display = "none";
+            table.style.display = "table";
+
+            data.forEach(user => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phoneNumber}</td>
+                        <td>${user.bloodGroup}</td>
+                        <td>${user.location}</td>
+                        <td style="color:${user.isAvailable ? 'green' : 'red'}">
+                            ${user.isAvailable ? "Available" : "Not Available"}
+                        </td>
+                    </tr>
+                `;
+            });
+        })
+        .catch(err => {
+            console.error("Error fetching data:", err);
+            noDataMsg.innerText = "Something went wrong!";
+            noDataMsg.style.display = "block";
+            table.style.display = "none";
+        });
+}
+
+// 🔹 Reset filters
+function resetFilters() {
+    document.getElementById("bloodGroup").value = "";
+    document.getElementById("locationInput").value = "";
+    loadData();
+}
+
+// 🔹 Event bindings
+document.getElementById("bloodGroup").addEventListener("change", loadData);
+
+document.getElementById("locationInput").addEventListener("input", function () {
+    clearTimeout(timer);
+    timer = setTimeout(loadData, 500);
+});
+
+// 🔹 Initial load
+window.onload = loadData;
+
+</script>
