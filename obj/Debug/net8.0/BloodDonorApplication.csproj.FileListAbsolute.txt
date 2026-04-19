@@ -169,3 +169,4 @@ C:\Users\nani6\source\repos\BloodDonorApplication\BloodDonorApplication\obj\Debu
 C:\Users\nani6\source\repos\BloodDonorApplication\BloodDonorApplication\obj\Debug\net8.0\BloodDonorApplication.pdb
 C:\Users\nani6\source\repos\BloodDonorApplication\BloodDonorApplication\obj\Debug\net8.0\BloodDonorApplication.genruntimeconfig.cache
 C:\Users\nani6\source\repos\BloodDonorApplication\BloodDonorApplication\obj\Debug\net8.0\ref\BloodDonorApplication.dll
+C:\Users\nani6\source\repos\BloodDonorApplication\BloodDonorApplication\obj\Debug\net8.0\BloodDonorApplication.sourcelink.json

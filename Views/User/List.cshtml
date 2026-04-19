@@ -6,8 +6,10 @@
 <div>
 
     <!-- Blood Group -->
-    <select id="bloodGroup">
-        <option value="">All</option>
+   <select id="bloodGroup" class="form-control">
+    <option value="">All</option>
+
+    <optgroup label="Common">
         <option value="A+">A+</option>
         <option value="A-">A-</option>
         <option value="B+">B+</option>
@@ -16,7 +18,12 @@
         <option value="O-">O-</option>
         <option value="AB+">AB+</option>
         <option value="AB-">AB-</option>
-    </select>
+    </optgroup>
+
+    <optgroup label="Rare">
+        <option value="Bombay (hh)">Bombay (hh)</option>
+    </optgroup>
+</select>
 
     <!-- Location -->
     <input type="text" id="locationInput" placeholder="Search by location" />

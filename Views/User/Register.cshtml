@@ -1,100 +1,143 @@
 ﻿@model User
 
+<div class="container mt-5">
+    <div class="card shadow p-4 my-5">
 
-<h2>User Registration</h2>
+        <h2 class="text-center mb-4 text-danger">Blood Donor Registration</h2>
 
-@Html.ValidationSummary(true, "", new { style = "color:red" })
+        <!-- Success Message -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
 
-@if (TempData["Success"] != null)
-{
-    <p style="color:green">@TempData["Success"]</p>
-}
+        <!-- Duplicate Message -->
+        @if (ViewBag.DuplicateMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.DuplicateMessage
+                <br />
+                <a href="/User/Login">Go to Login</a>
+            </div>
+        }
 
-<form method="post">
+        <!-- Validation Summary -->
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <!-- Name -->
-    <input asp-for="Name" placeholder="Name" />
-    <span asp-validation-for="Name" style="color:red"></span>
-    <br />
+        <form method="post">
 
-    <!-- Email -->
-    <input asp-for="Email" placeholder="Email" />
-    <span asp-validation-for="Email" style="color:red"></span>
-    <br />
+            <div class="row">
 
-    <!-- Phone -->
-    <input asp-for="PhoneNumber" placeholder="Phone Number" />
-    <span asp-validation-for="PhoneNumber" style="color:red"></span>
-    <br />
+                <!-- Name -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Name *</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
 
-    <!-- Alternate Phone -->
-    <input asp-for="AlternatePhone" placeholder="Alternate Phone (optional)" />
-    <br />
+                <!-- Email -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email *</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
 
-    <!-- Gender (Radio Buttons) -->
-    <label>Gender:</label><br />
-    <input type="radio" asp-for="Gender" value="Male" /> Male
-    <input type="radio" asp-for="Gender" value="Female" /> Female
-    <input type="radio" asp-for="Gender" value="Neutral" /> Neutral
-    <input type="radio" asp-for="Gender" value="PreferNotToSay" /> Prefer not to say
-    <span asp-validation-for="Gender" style="color:red"></span>
-    <br />
+                <!-- Phone -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone Number *</label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
 
-    <!-- Blood Group (Dropdown) -->
-    <label>Blood Group:</label>
-    <select asp-for="BloodGroup">
-        <option value="">-- Select Blood Group --</option>
-        <option>A+</option>
-        <option>A-</option>
-        <option>B+</option>
-        <option>B-</option>
-        <option>O+</option>
-        <option>O-</option>
-        <option>AB+</option>
-        <option>AB-</option>
-    </select>
-    <span asp-validation-for="BloodGroup" style="color:red"></span>
-    <br />
+                <!-- Alternate Phone -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Alternate Phone</label>
+                    <input asp-for="AlternatePhone" class="form-control" />
+                </div>
 
-    <!-- Location -->
-    <input asp-for="Location" placeholder="Location" />
-    <span asp-validation-for="Location" style="color:red"></span>
-    <br />
+                <!-- Gender -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Gender *</label><br />
+                    <input type="radio" asp-for="Gender" value="Male" /> Male
+                    <input type="radio" asp-for="Gender" value="Female" class="ms-2" /> Female
+                    <input type="radio" asp-for="Gender" value="Neutral" class="ms-2" /> Neutral
+                    <input type="radio" asp-for="Gender" value="Prefer not to say" class="ms-2" /> Prefer not to say
+                    <br />
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
 
-    <!-- Pin Code -->
-    <input asp-for="PinCode" placeholder="Pin Code" />
-    <span asp-validation-for="PinCode" style="color:red"></span>
-    <br />
+                <!-- Blood Group -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Blood Group *</label>
+                    <select asp-for="BloodGroup" class="form-control">
+                        <option value="">Select</option>
 
-    <!-- Tattoos (Radio) -->
-    <label>Tattoos:</label><br />
-    <input type="radio" asp-for="HasTattoos" value="true" /> Yes
-    <input type="radio" asp-for="HasTattoos" value="false" /> No
-    <br />
+                        <optgroup label="Common">
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>O+</option>
+                            <option>O-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                        </optgroup>
 
-    <!-- Disability (Radio) -->
-    <label>Disability:</label><br />
-    <input type="radio" asp-for="HasDisability" value="true" /> Yes
-    <input type="radio" asp-for="HasDisability" value="false" /> No
-    <br />
+                        <optgroup label="Rare">
+                            <option>Bombay (hh)</option>
+                        </optgroup>
+                    </select>
+                    <span asp-validation-for="BloodGroup" class="text-danger"></span>
+                </div>
 
-    <label>Last Donation Date (optional):</label>
-    <input asp-for="LastDonationDate" type="date" />
-    <span asp-validation-for="LastDonationDate" style="color:red"></span>
-    <br />
-    <small>If you never donated, leave it empty</small>
-    <br/>
+                <!-- Location -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Location *</label>
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
 
-    @if (ViewBag.DuplicateMessage != null)
-    {
-        <div style="color:red; border:1px solid red; padding:10px; margin-bottom:10px;">
-            @ViewBag.DuplicateMessage
-            <br />
-            <a href="/User/Login">Go to Login</a>
-        </div>
-    }
-    <button type="submit">Register</button>
-</form>
+                <!-- Pin Code -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Pin Code *</label>
+                    <input asp-for="PinCode" class="form-control" />
+                    <span asp-validation-for="PinCode" class="text-danger"></span>
+                </div>
+
+                <!-- Tattoos -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tattoos</label><br />
+                    <input type="radio" asp-for="HasTattoos" value="true" /> Yes
+                    <input type="radio" asp-for="HasTattoos" value="false" class="ms-2" /> No
+                </div>
+
+                <!-- Disability -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Disability</label><br />
+                    <input type="radio" asp-for="HasDisability" value="true" /> Yes
+                    <input type="radio" asp-for="HasDisability" value="false" class="ms-2" /> No
+                </div>
+
+                <!-- Last Donation Date -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Donation Date</label>
+                    <input asp-for="LastDonationDate" type="date" class="form-control" />
+                    <small class="text-muted">Leave empty if never donated</small>
+                    <span asp-validation-for="LastDonationDate" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary px-5">Register</button>
+            </div>
+
+        </form>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
